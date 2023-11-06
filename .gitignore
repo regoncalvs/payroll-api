@@ -1,0 +1,18 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Stone.Payroll.API/bin/Debug
+/Stone.Payroll.API/obj
+*.user
+/Stone.Payroll.Application/bin/Debug/net7.0
+/Stone.Payroll.Application/obj
+/Stone.Payroll.Domain/bin/Debug/net7.0
+/Stone.Payroll.Domain/obj
+/Stone.Payroll.Infrastructure/bin/Debug/net7.0
+/Stone.Payroll.Infrastructure/obj
+/Stone.Payroll.Tests/bin
+/Stone.Payroll.Tests/obj
+/Stone.Payroll.Utils/bin/Debug/net7.0
+/Stone.Payroll.Utils/obj
