@@ -12,7 +12,9 @@ services:
     volumes:
       - db-write-data:/var/opt/mssql
     healthcheck:
-      test: ["CMD-SHELL", "sqlcmd -U sa -P 'DesafioSt0ne!' -Q 'select 1'"]
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PDesafioSt0ne!", "-Q", "select 1"]
+      timeout: 10s
+      retries: 10
 
   db-read:
     image: mcr.microsoft.com/mssql/server
@@ -25,7 +27,9 @@ services:
     volumes:
       - db-read-data:/var/opt/mssql
     healthcheck:
-      test: ["CMD-SHELL", "sqlcmd -U sa -P 'DesafioSt0ne!' -S localhost,1434 -Q 'select 1'"]
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PDesafioSt0ne!", "-Q", "select 1"]
+      timeout: 10s
+      retries: 10
 
   api:
     build:
@@ -36,8 +40,10 @@ services:
     depends_on:
       db-write:
         condition: service_healthy
+        restart: true
       db-read:
         condition: service_healthy
+        restart: true
 
 volumes:
   db-write-data:
