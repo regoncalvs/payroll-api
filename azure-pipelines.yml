@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: DESKTOP-SMNPAJM
+  name: default
 
 variables:
   buildConfiguration: 'Release'
