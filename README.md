@@ -25,4 +25,4 @@ Certifique-se de ter os pré-requisitos instalados e configurados.
 Na pasta raiz da solução, execute o comando docker-compose up --build para criar e iniciar os contêineres.
 
 # Como Usar
-A documentação detalhada sobre como usar a API e suas funcionalidades está disponível no endpoint de documentação. Certifique-se de ler a documentação para obter informações sobre os endpoints disponíveis.
+A documentação detalhada sobre como usar a API e suas funcionalidades está disponível no endpoint de documentação (/swagger). Certifique-se de ler a documentação para obter informações sobre os endpoints disponíveis.
