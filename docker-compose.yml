@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  db-write:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "DesafioSt0ne!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - db-write-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "sqlcmd -U sa -P 'DesafioSt0ne!' -Q 'select 1'"]
+
+  db-read:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "DesafioSt0ne!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1434:1433"
+    volumes:
+      - db-read-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "sqlcmd -U sa -P 'DesafioSt0ne!' -S localhost,1434 -Q 'select 1'"]
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      db-write:
+        condition: service_healthy
+      db-read:
+        condition: service_healthy
+
+volumes:
+  db-write-data:
+  db-read-data:
