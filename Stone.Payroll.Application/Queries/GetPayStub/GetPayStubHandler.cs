@@ -30,8 +30,8 @@ namespace Stone.Payroll.Application.Queries.GetPayStub
         /// <returns>O contracheque do funcionário obtido.</returns>
         public async Task<GetPayStubResponse> Handle(GetPayStubQuery request, CancellationToken cancellationToken)
         {
-            var employee = _readContext.Employees.Include(f => f.Entries)
-                .FirstOrDefault(f => f.Id == request.EmployeeId)
+            var employee = await _readContext.Employees.Include(f => f.Entries)
+                .SingleOrDefaultAsync(f => f.Id == request.EmployeeId, cancellationToken: cancellationToken)
                 ?? throw new NotFoundException($"Funcionário com o Id {request.EmployeeId} não encontrado.");
 
             var payStub = new PayStub(employee);
