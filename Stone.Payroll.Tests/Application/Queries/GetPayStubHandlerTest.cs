@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MockQueryable.Moq;
 using Moq;
 using Stone.Payroll.Application.Queries.GetPayStub;
 using Stone.Payroll.Infrastructure.Persistence;
@@ -24,7 +24,7 @@ namespace Stone.Payroll.Tests.Application.Commands
                 new EmployeeRead(Guid.NewGuid(), "João", "Souza", "00000000000", "Departamento", 1000, DateTime.Now.AddYears(-5), false, true, true)
             }.AsQueryable();
 
-            Mock<DbSet<EmployeeRead>> mockSetEmployees = NewMockSet(employees);
+            var mockSetEmployees = employees.AsQueryable().BuildMockDbSet();
 
             var readContext = new Mock<EmployeesReadContext>();
 
@@ -60,10 +60,9 @@ namespace Stone.Payroll.Tests.Application.Commands
             {
                 new EmployeeRead(Guid.NewGuid(), "Maria", "Souza", "00000000000", "Departamento", 1500, DateTime.Now.AddYears(-5), false, true, true),
                 new EmployeeRead(Guid.NewGuid(), "João", "Souza", "00000000000", "Departamento", 1000, DateTime.Now.AddYears(-5), false, true, true)
-            }.AsQueryable();
+            };
 
-            Mock<DbSet<EmployeeRead>> mockSetEmployees = NewMockSet(employees);
-
+            var mockSetEmployees = employees.AsQueryable().BuildMockDbSet();
             var readContext = new Mock<EmployeesReadContext>();
 
             readContext
@@ -81,15 +80,6 @@ namespace Stone.Payroll.Tests.Application.Commands
             #region Assert
             Assert.IsType<NotFoundException>(exception);
             #endregion
-        }
-        private static Mock<DbSet<T>> NewMockSet<T>(IQueryable<T> employees) where T : class
-        {
-            var mockSet = new Mock<DbSet<T>>();
-            mockSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(employees.Provider);
-            mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(employees.Expression);
-            mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(employees.ElementType);
-            mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => employees.GetEnumerator());
-            return mockSet;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Stone.Payroll.Application.Queries.GetEmployee
         public async Task<GetEmployeeResponse> Handle(GetEmployeeQuery request, CancellationToken cancellationToken)
         {
             var employee = await _readContext.Employees
-                .FirstOrDefaultAsync(f => f.Id == request.Id, cancellationToken: cancellationToken)
+                .SingleOrDefaultAsync(f => f.Id == request.Id, cancellationToken: cancellationToken)
                 ?? throw new NotFoundException($"Funcionário com o Id {request.Id} não encontrado.");
 
             var employeeResponse = _mapper.Map<GetEmployeeResponse>(employee);
